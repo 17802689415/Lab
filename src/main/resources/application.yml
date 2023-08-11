@@ -1,0 +1,44 @@
+server:
+  address: 0.0.0.0
+  port: 8099
+spring:
+  application:
+    name: sp
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://imedtedatabase:3306/zhanglei?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
+      username: root
+      password:
+  redis:
+    # redis库
+    database: 0
+    # redis 服务器地址
+    host: localhost
+    # redis 端口号
+    port: 6379
+    # redis 密码
+    password:
+    # 连接超时时间（毫秒）
+    timeout: 1000
+    lettuce:
+      pool:
+        # 连接池最大链接数（负数表示没有限制）
+        max-active: 8
+        # 连接池最大阻塞等待时间（负数表示没有限制）
+        max-wait: -1
+        # 连接池最大空闲连接数
+        max-idle: 8
+        # 连接池最小空闲连接数
+        min-idle: 0
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+
+
+
