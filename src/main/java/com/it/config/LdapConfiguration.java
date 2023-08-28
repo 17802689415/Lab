@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 
+import javax.annotation.PreDestroy;
 import javax.naming.Context;
 import java.security.Security;
 import java.util.Hashtable;
@@ -66,7 +67,7 @@ public class LdapConfiguration {
     }
 
     @Bean
-    public LdapTemplate ldapTemplate(LdapContextSource contextSource) {
+    public LdapTemplate ldapTemplate(LdapContextSource contextSource) throws Exception {
 
         if (Objects.isNull(contextSource)) {
             throw new RuntimeException("ldap contextSource error");

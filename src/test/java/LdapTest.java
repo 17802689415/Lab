@@ -1,5 +1,6 @@
 import com.it.Application;
 import com.it.config.LdapConfiguration;
+import com.it.utils.CodeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -23,7 +25,7 @@ public class LdapTest {
 
 
     @Test
-    public void test() throws NamingException {
+    public void test() throws Exception {
         LdapConfiguration ldapConfiguration = new LdapConfiguration();
         LdapContextSource ldapContextSource = ldapConfiguration.contextSource();
         LdapTemplate ldapTemplate = ldapConfiguration.ldapTemplate(ldapContextSource);
@@ -35,6 +37,24 @@ public class LdapTest {
         NamingEnumeration<SearchResult> search = context.search("", "employeeNumber=3554536", contro);
         SearchResult next = search.next();
         System.out.println(next);
+
+    }
+
+    private static AtomicLong counter = new AtomicLong(10000000L);
+    public void t(){
+
+        for (int i = 0; i < 10; i++) {
+            String s = String.valueOf(counter.getAndIncrement());
+            System.out.println(s);
+        }
+    }
+    @Test
+    public void tt(){
+
+        for (int i = 0; i < 20; i++) {
+            String encode = CodeUtil.encode();
+            System.out.println(encode);
+        }
 
     }
 }

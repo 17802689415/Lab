@@ -1,87 +1,32 @@
 package com.it.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
+@Data
+@TableName("user_info")
 public class UserInfo implements Serializable {
+    @TableId
     private int id;
-    private String username;
+    @NotEmpty
+    private String empId;
+    @NotEmpty
     private String workCell;
     private String chineseName;
     private String mobile;
+    @NotEmpty
+    @Email
     private String email;
+    @NotNull
     private String role;
     private String backUp;
     private Boolean active;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getWorkCell() {
-        return workCell;
-    }
-
-    public void setWorkCell(String workCell) {
-        this.workCell = workCell;
-    }
-
-    public String getChineseName() {
-        return chineseName;
-    }
-
-    public void setChineseName(String chineseName) {
-        this.chineseName = chineseName;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getBackUp() {
-        return backUp;
-    }
-
-    public void setBackUp(String backUp) {
-        this.backUp = backUp;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
 }

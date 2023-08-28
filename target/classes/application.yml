@@ -8,8 +8,8 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://imedtedatabase:3306/zhanglei?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
-      username: root
-      password:
+      username: zhanglei
+      password: leizhang123
   redis:
     # redis库
     database: 0

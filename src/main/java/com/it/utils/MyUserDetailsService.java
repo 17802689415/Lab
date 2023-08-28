@@ -32,7 +32,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     public List<GrantedAuthority> getAuthority(String username){
         LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserInfo::getUsername,username);
+        queryWrapper.eq(UserInfo::getEmpId,username);
         UserInfo one = loginService.getOne(queryWrapper);
         return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_"+one.getRole());
     }

@@ -1,5 +1,5 @@
-com\it\pojo\PageCommon.class
 com\it\utils\JwtTokenUtils.class
+com\it\pojo\UserPageCommon.class
 com\it\mapper\UserInfoMapper.class
 com\it\config\WebMvcConfig.class
 com\it\utils\MyUserDetailsService.class

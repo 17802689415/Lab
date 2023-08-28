@@ -12,28 +12,6 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="b8cae1ee-74ab-4d25-a107-87a0f04532aa">
-      <console name="Connection" type="STANDARD" schema="person_item" session="Main"><![CDATA[create database person_item;
-
-create table user_info(
-id int primary key auto_increment,
-username varchar(200) not null,
-work_cell varchar(200) not null,
-chinese_name varchar(200) not null,
-mobile varchar(200) not null,
-email varchar(200) not null,
-role varchar(200) not null,
-back_up varchar(200),
-active boolean
-)
-
-select * from user_info;
-
-insert into user_info values (1,'3554536','iMED','张磊','17802689415','Lei_Zhang3554536@jabil.com','admin','',true);]]></console>
-    </connection>
-    <connection id="15806865-c2a6-411d-b910-055b549aac67">
-      <console name="Connection 1" type="STANDARD" schema="mysql" session="Main" />
-    </connection>
     <connection id="04bd17ee-ed74-44b2-bef6-ffa0ee7ae1a1">
       <console name="Connection 2" type="STANDARD" schema="zhanglei" session="Main"><![CDATA[create table user_info(
 id int primary key auto_increment,
@@ -49,7 +27,75 @@ active boolean
 
 insert into user_info values (1,'3554536','iMED','张磊','17802689415','Lei_Zhang3554536@jabil.com','admin','',true);
 
-select * from user_info;]]></console>
+select * from user_info;
+delete from user_info where id=2;
+ALTER TABLE user_info
+ALTER COLUMN active SET DEFAULT true;
+
+delete from user_info where id > 3;
+
+ALTER TABLE user_info CHANGE username emp_id VARCHAR(200);
+
+create table sample_info(
+id int primary key auto_increment,
+case_num varchar(200) not null,
+sample_name varchar(200) not null,
+quantity double not null,
+batch_number varchar(200) not null,
+test_purpose varchar(200) not null,
+sample_send_date datetime,
+sample_disposal varchar(200),
+sample_storage_condition varchar(200),
+create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE sample_info ADD COLUMN status varchar(255);
+ALTER TABLE sample_info ADD COLUMN version int;
+ALTER TABLE sample_info ADD sample_type varchar(200) AFTER sample_name;
+select * from sample_info where case_num = 'F455f0d75cd0d4e5d84481583531f64bb';
+select * from sample_info;
+update sample_info set status = '待收样' where id = 13;
+
+
+create table consignor_info(
+id int primary key auto_increment,
+case_num varchar(200) not null,
+name varchar(200) not null,
+mobile varchar(200) not null,
+email varchar(200) not null,
+department varchar(200) not null,
+work_cell varchar(200) not null,
+notifier varchar(200) not null,
+apply_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+select * from consignor_info;
+
+
+create table sample_test_info(
+id int primary key auto_increment,
+case_num varchar(200) not null,
+test_item varchar(200) not null,
+batch_number varchar(200) not null,
+quantity double not null,
+specification varchar(200) not null,
+method_number varchar(200) not null,
+acceptance_limit double not null,
+remark varchar(255) not null,
+urgent boolean ,
+create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ALTER TABLE sample_test_info ADD COLUMN version int;
+F455f0d75cd0d4e5d84481583531f64bb
+select * from sample_test_info where case_num = 'F455f0d75cd0d4e5d84481583531f64bb';
+update sample_test_info set status = '已完成' where case_num = 'F455f0d75cd0d4e5d84481583531f64bb' and test_item = 'Particulate Matter Test';
+select * from sample_test_info;
+ALTER TABLE sample_test_info ADD code varchar(200) AFTER version;
+update sample_test_info set code = '20230825153004554' where id = 2;
+update sample_test_info set code = '20230825153004555' where id = 14;
+update sample_test_info set code = '20230825153004556' where id = 15;
+update sample_test_info set code = '20230825153004557' where id = 16;
+update sample_test_info set code = '20230825153004558' where id = 17;
+update sample_test_info set code = '20230825153004559' where id = 18;
+update sample_test_info set code = '20230825153004560' where id = 19;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -78,188 +124,22 @@ select * from user_info;]]></console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="b8cae1ee-74ab-4d25-a107-87a0f04532aa" active="true" signed="true">
+      <connection id="04bd17ee-ed74-44b2-bef6-ffa0ee7ae1a1" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
           <database-version value="8.0" />
-          <driver-source value="BUILTIN" />
-          <driver-library value="" />
-          <driver value="" />
-          <url-type value="DATABASE" />
-          <host value="localhost" />
-          <port value="3306" />
-          <database value="mysql" />
-          <type value="USER_PASSWORD" />
-          <user value="root" />
-          <deprecated-pwd value="MTIzNDU2" />
-        </database>
-        <properties>
-          <auto-commit value="false" />
-        </properties>
-        <ssh-settings>
-          <active value="false" />
-          <proxy-host value="" />
-          <proxy-port value="22" />
-          <proxy-user value="" />
-          <deprecated-proxy-pwd value="" />
-          <auth-type value="PASSWORD" />
-          <key-file value="" />
-          <key-passphrase value="" />
-        </ssh-settings>
-        <ssl-settings>
-          <active value="false" />
-          <certificate-authority-file value="" />
-          <client-certificate-file value="" />
-          <client-key-file value="" />
-        </ssl-settings>
-        <details>
-          <charset value="UTF-8" />
-          <session-management value="true" />
-          <ddl-file-binding value="true" />
-          <database-logging value="true" />
-          <connect-automatically value="true" />
-          <restore-workspace value="true" />
-          <restore-workspace-deep value="false" />
-          <environment-type value="default" />
-          <connectivity-timeout value="10" />
-          <idle-time-to-disconnect value="30" />
-          <idle-time-to-disconnect-pool value="5" />
-          <credential-expiry-time value="10" />
-          <max-connection-pool-size value="7" />
-          <alternative-statement-delimiter value="" />
-        </details>
-        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
-          <object-type-filter>
-            <object-type name="SCHEMA" enabled="true" />
-            <object-type name="USER" enabled="true" />
-            <object-type name="ROLE" enabled="true" />
-            <object-type name="PRIVILEGE" enabled="true" />
-            <object-type name="CHARSET" enabled="true" />
-            <object-type name="TABLE" enabled="true" />
-            <object-type name="VIEW" enabled="true" />
-            <object-type name="MATERIALIZED_VIEW" enabled="true" />
-            <object-type name="NESTED_TABLE" enabled="true" />
-            <object-type name="COLUMN" enabled="true" />
-            <object-type name="INDEX" enabled="true" />
-            <object-type name="CONSTRAINT" enabled="true" />
-            <object-type name="DATASET_TRIGGER" enabled="true" />
-            <object-type name="DATABASE_TRIGGER" enabled="true" />
-            <object-type name="SYNONYM" enabled="true" />
-            <object-type name="SEQUENCE" enabled="true" />
-            <object-type name="PROCEDURE" enabled="true" />
-            <object-type name="FUNCTION" enabled="true" />
-            <object-type name="PACKAGE" enabled="true" />
-            <object-type name="TYPE" enabled="true" />
-            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
-            <object-type name="ARGUMENT" enabled="true" />
-            <object-type name="DIMENSION" enabled="true" />
-            <object-type name="CLUSTER" enabled="true" />
-            <object-type name="DBLINK" enabled="true" />
-          </object-type-filter>
-          <object-name-filters />
-        </object-filters>
-      </connection>
-      <connection id="15806865-c2a6-411d-b910-055b549aac67" active="true" signed="true">
-        <database>
-          <name value="Connection 1" />
-          <description value="" />
-          <database-type value="MYSQL" />
-          <config-type value="BASIC" />
-          <database-version value="8.0" />
-          <driver-source value="BUILTIN" />
-          <driver-library value="" />
-          <driver value="" />
-          <url-type value="DATABASE" />
-          <host value="imedtdbackup" />
-          <port value="3306" />
-          <database value="mysql" />
-          <type value="USER_PASSWORD" />
-          <user value="root" />
-          <deprecated-pwd value="YWdpbmd3aXA=" />
-        </database>
-        <properties>
-          <auto-commit value="false" />
-        </properties>
-        <ssh-settings>
-          <active value="false" />
-          <proxy-host value="" />
-          <proxy-port value="22" />
-          <proxy-user value="" />
-          <deprecated-proxy-pwd value="" />
-          <auth-type value="PASSWORD" />
-          <key-file value="" />
-          <key-passphrase value="" />
-        </ssh-settings>
-        <ssl-settings>
-          <active value="false" />
-          <certificate-authority-file value="" />
-          <client-certificate-file value="" />
-          <client-key-file value="" />
-        </ssl-settings>
-        <details>
-          <charset value="UTF-8" />
-          <session-management value="true" />
-          <ddl-file-binding value="true" />
-          <database-logging value="true" />
-          <connect-automatically value="true" />
-          <restore-workspace value="true" />
-          <restore-workspace-deep value="false" />
-          <environment-type value="default" />
-          <connectivity-timeout value="10" />
-          <idle-time-to-disconnect value="30" />
-          <idle-time-to-disconnect-pool value="5" />
-          <credential-expiry-time value="10" />
-          <max-connection-pool-size value="7" />
-          <alternative-statement-delimiter value="" />
-        </details>
-        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
-          <object-type-filter>
-            <object-type name="SCHEMA" enabled="true" />
-            <object-type name="USER" enabled="true" />
-            <object-type name="ROLE" enabled="true" />
-            <object-type name="PRIVILEGE" enabled="true" />
-            <object-type name="CHARSET" enabled="true" />
-            <object-type name="TABLE" enabled="true" />
-            <object-type name="VIEW" enabled="true" />
-            <object-type name="MATERIALIZED_VIEW" enabled="true" />
-            <object-type name="NESTED_TABLE" enabled="true" />
-            <object-type name="COLUMN" enabled="true" />
-            <object-type name="INDEX" enabled="true" />
-            <object-type name="CONSTRAINT" enabled="true" />
-            <object-type name="DATASET_TRIGGER" enabled="true" />
-            <object-type name="DATABASE_TRIGGER" enabled="true" />
-            <object-type name="SYNONYM" enabled="true" />
-            <object-type name="SEQUENCE" enabled="true" />
-            <object-type name="PROCEDURE" enabled="true" />
-            <object-type name="FUNCTION" enabled="true" />
-            <object-type name="PACKAGE" enabled="true" />
-            <object-type name="TYPE" enabled="true" />
-            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
-            <object-type name="ARGUMENT" enabled="true" />
-            <object-type name="DIMENSION" enabled="true" />
-            <object-type name="CLUSTER" enabled="true" />
-            <object-type name="DBLINK" enabled="true" />
-          </object-type-filter>
-          <object-name-filters />
-        </object-filters>
-      </connection>
-      <connection id="04bd17ee-ed74-44b2-bef6-ffa0ee7ae1a1" active="true" signed="true">
-        <database>
-          <name value="Connection 2" />
-          <description value="" />
-          <database-type value="MYSQL" />
-          <config-type value="BASIC" />
-          <database-version value="8.0" />
-          <driver-source value="BUILTIN" />
+          <driver-source value="BUNDLED" />
           <driver-library value="" />
           <driver value="" />
           <url-type value="DATABASE" />
           <host value="imedtedatabase" />
           <port value="3306" />
           <database value="mysql" />
+          <tns-folder value="" />
+          <tns-profile value="" />
           <type value="USER_PASSWORD" />
           <user value="zhanglei" />
           <deprecated-pwd value="bGVpemhhbmcxMjM=" />

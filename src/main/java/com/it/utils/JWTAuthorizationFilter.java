@@ -50,6 +50,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             System.out.println(myUserDetailsService.getAuthority(userid));
         } catch (Exception e) {
             e.printStackTrace();
+
             throw new RuntimeException("token非法");
         }
         //从redis中获取用户信息
