@@ -36,6 +36,32 @@ delete from user_info where id > 3;
 
 ALTER TABLE user_info CHANGE username emp_id VARCHAR(200);
 
+create table water_test_info(
+id int primary key auto_increment,
+case_num varchar(200) not null,
+sample_type varchar(200) not null,
+water_no varchar(200) not null,
+wi_no varchar(200),
+water_send_date datetime,
+test_item varchar(200) not null,
+urgent boolean ,
+create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+code varchar(200),
+sample_taker varchar(200),
+receive_date datetime,
+reject_reason varchar(200),
+inspector varchar(200),
+status varchar(200),
+version int
+);
+select * from water_test_info;
+update water_test_info set code = '1693547913711' where id = 5;
+select case_num from water_test_info group by case_num;
+select case_num,create_time from water_test_info where status = '待收样' group by case_num,create_time;
+select * from water_test_info where status = '待收样' ;
+
+select case_num,create_time from water_test_info where case_num = (select case_num from water_test_info where status = '待收样' group by case_num);
+
 create table sample_info(
 id int primary key auto_increment,
 case_num varchar(200) not null,
@@ -51,7 +77,7 @@ create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ALTER TABLE sample_info ADD COLUMN status varchar(255);
 ALTER TABLE sample_info ADD COLUMN version int;
 ALTER TABLE sample_info ADD sample_type varchar(200) AFTER sample_name;
-select * from sample_info where case_num = 'F455f0d75cd0d4e5d84481583531f64bb';
+select * from sample_info where case_num = 'Yde652a80b3f143108d2b08ffda5eddb6';
 select * from sample_info;
 update sample_info set status = '待收样' where id = 13;
 
@@ -68,7 +94,10 @@ notifier varchar(200) not null,
 apply_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 select * from consignor_info;
-
+ALTER TABLE consignor_info ADD empId varchar(200) AFTER case_num;
+update consignor_info set empId = '3554536' where id < 20;
+ALTER TABLE consignor_info
+CHANGE COLUMN empId emp_id varchar(200);
 
 create table sample_test_info(
 id int primary key auto_increment,
@@ -85,7 +114,7 @@ create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ALTER TABLE sample_test_info ADD COLUMN version int;
 F455f0d75cd0d4e5d84481583531f64bb
-select * from sample_test_info where case_num = 'F455f0d75cd0d4e5d84481583531f64bb';
+select * from sample_test_info where case_num = 'Yde652a80b3f143108d2b08ffda5eddb6';
 update sample_test_info set status = '已完成' where case_num = 'F455f0d75cd0d4e5d84481583531f64bb' and test_item = 'Particulate Matter Test';
 select * from sample_test_info;
 ALTER TABLE sample_test_info ADD code varchar(200) AFTER version;
@@ -95,7 +124,20 @@ update sample_test_info set code = '20230825153004556' where id = 15;
 update sample_test_info set code = '20230825153004557' where id = 16;
 update sample_test_info set code = '20230825153004558' where id = 17;
 update sample_test_info set code = '20230825153004559' where id = 18;
-update sample_test_info set code = '20230825153004560' where id = 19;]]></console>
+update sample_test_info set code = '20230825153004560' where id = 19;
+
+select case_num from sample_info where status = '拒绝收样';
+select * from consignor_info where emp_id = '3554536';
+select c.* from (select * from consignor_info where emp_id = '3554536') c join (select case_num from sample_info where status = '拒绝收样') s where c.case_num = s.case_num;
+
+select c.* from (select * from consignor_info where emp_id = '3554536') c 
+            join
+            (select case_num from sample_info where status = '拒绝收样') s 
+            where c.case_num = s.case_num  
+            LIMIT 5 OFFSET 0;]]></console>
+    </connection>
+    <connection id="a224fd23-0426-4c86-aec8-1d1b49a7b02b">
+      <console name="Connection 1" type="STANDARD" schema="agingwip" session="Main"><![CDATA[select * from down_time;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -105,6 +147,8 @@ update sample_test_info set code = '20230825153004560' where id = 19;]]></consol
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="04bd17ee-ed74-44b2-bef6-ffa0ee7ae1a1" dataset="agingwip.down_time" active-filter-id="" />
+    <filter-actions connection-id="04bd17ee-ed74-44b2-bef6-ffa0ee7ae1a1" dataset="zhanglei.sample_info" active-filter-id="" />
     <filter-actions connection-id="04bd17ee-ed74-44b2-bef6-ffa0ee7ae1a1" dataset="zhanglei.user_info" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
@@ -173,6 +217,92 @@ update sample_test_info set code = '20230825153004560' where id = 19;]]></consol
           <restore-workspace-deep value="false" />
           <environment-type value="default" />
           <connectivity-timeout value="10" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter>
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="a224fd23-0426-4c86-aec8-1d1b49a7b02b" active="true" signed="true">
+        <database>
+          <name value="Connection 1" />
+          <description value="" />
+          <database-type value="MYSQL" />
+          <config-type value="BASIC" />
+          <database-version value="8.0" />
+          <driver-source value="BUNDLED" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="DATABASE" />
+          <host value="imedtdbackup" />
+          <port value="3306" />
+          <database value="mysql" />
+          <tns-folder value="" />
+          <tns-profile value="" />
+          <type value="USER_PASSWORD" />
+          <user value="root" />
+          <deprecated-pwd value="YWdpbmd3aXA=" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="true" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="false" />
+          <environment-type value="default" />
+          <connectivity-timeout value="30" />
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
           <credential-expiry-time value="10" />

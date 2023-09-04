@@ -2,6 +2,7 @@ package com.it.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.it.pojo.*;
 import com.it.service.ConsignorInfoService;
 import com.it.service.SampleInfoService;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/lab")
+@RequestMapping("/sample")
 public class SampleCaseController {
 
     @Autowired
@@ -29,17 +30,7 @@ public class SampleCaseController {
     private SampleInfoService sampleInfoService;
     @Autowired
     private SampleTestInfoService sampleTestInfoService;
-    private static int counter = 0;
-    @PostMapping("/getCaseNum")
-    public R getCaseNum(@RequestBody String str){
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        String timestamp = now.format(formatter);
 
-        String code = timestamp + String.format("%04d", counter);
-        counter++;
-        return R.success(str.replace("=", "")+code,200);
-    }
     @PostMapping("/postCase")
     @Transactional
     public R postCase(@Valid @RequestBody CaseCommon caseCommon){
@@ -86,34 +77,14 @@ public class SampleCaseController {
         }
         return R.error("error",100);
     }
-    @GetMapping("/getTask")
-    public R getTask(){
-        LambdaQueryWrapper<SampleInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.isNotNull(SampleInfo::getSampleTaker);
-        List<SampleInfo> list = sampleInfoService.list(queryWrapper);
-        List<SampleInfo> newList = new ArrayList<>();
-        for (SampleInfo sampleInfo : list) {
-            LambdaQueryWrapper<SampleTestInfo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-            lambdaQueryWrapper.eq(SampleTestInfo::getCaseNum,sampleInfo.getCaseNum())
-                    .isNull(SampleTestInfo::getStatus);
-            List<SampleTestInfo> sampleTestInfoList = sampleTestInfoService.list(lambdaQueryWrapper);
-            sampleInfo.setSampleTestInfoList(sampleTestInfoList);
-            if (sampleTestInfoList.size() == 0){
-                newList.add(sampleInfo);
-            }
-        }
-        for (SampleInfo s : newList) {
-            list.remove(s);
-        }
-        return R.success(list,200);
-    }
+
     @PostMapping("/receiveTask")
     @Transactional
     public R receiveTask(@RequestBody TaskCommon taskCommon){
         System.out.println(taskCommon.getType());
         System.out.println(taskCommon.getType() == "样品");
+        System.out.println(taskCommon.getCheckedList());
         if("样品".equals(taskCommon.getType())){
-
             for (CheckedCommon c : taskCommon.getCheckedList()) {
                 UpdateWrapper<SampleTestInfo> wrapper = new UpdateWrapper<>();
                 wrapper.eq("case_num",c.getCaseNum())
@@ -137,26 +108,33 @@ public class SampleCaseController {
                 }
             }
         }
-        return null;
+        return R.success("success",200);
     }
 
-    @PostMapping("/getMyTask")
-    public R getMyTask(@RequestBody TaskCommon taskCommon){
-        LambdaQueryWrapper<SampleTestInfo> queryWrapper =new LambdaQueryWrapper<>();
-        queryWrapper.eq(SampleTestInfo::getInspector,taskCommon.getInspector())
-                .eq(SampleTestInfo::getStatus,taskCommon.getType());
-        List<SampleTestInfo> list = sampleTestInfoService.list(queryWrapper);
-        for (SampleTestInfo s :
-                list) {
-            LambdaQueryWrapper<SampleInfo> sampleWrapper = new LambdaQueryWrapper<>();
-            sampleWrapper.eq(SampleInfo::getCaseNum,s.getCaseNum());
-            SampleInfo sampleInfo = sampleInfoService.getOne(sampleWrapper);
-            s.setSampleInfo(sampleInfo);
-            LambdaQueryWrapper<ConsignorInfo> consignorWrapper = new LambdaQueryWrapper<>();
-            consignorWrapper.eq(ConsignorInfo::getCaseNum,s.getCaseNum());
-            ConsignorInfo consignorInfo = consignorInfoService.getOne(consignorWrapper);
-            s.setConsignorInfo(consignorInfo);
+    @PostMapping("/startTask")
+    public R startTask(@RequestBody SampleTestInfo sampleTestInfo){
+        UpdateWrapper<SampleTestInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("code",sampleTestInfo.getCode())
+                .set("status","检测中");
+        boolean update = sampleTestInfoService.update(updateWrapper);
+        if (update){
+            return R.success("success",200);
         }
-        return R.success(list,200);
+        return R.error("error",100);
     }
+
+    @PostMapping("/rejectSample")
+    public R rejectSample(@RequestBody SampleInfo sampleInfo){
+        UpdateWrapper<SampleInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("case_num",sampleInfo.getCaseNum())
+                .set("status","拒绝收样")
+                .set("reject_reason",sampleInfo.getRejectReason());
+        boolean update = sampleInfoService.update(updateWrapper);
+        if(update){
+            return R.success("success",200);
+        }
+        return R.error("error",100);
+    }
+
+
 }

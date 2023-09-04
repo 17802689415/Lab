@@ -1,6 +1,7 @@
 package com.it.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @TableName("sample_test_info")
 public class SampleTestInfo {
+    @TableId
     private int id;
     private String caseNum;
     @NotEmpty

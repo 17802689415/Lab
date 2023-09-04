@@ -7,39 +7,31 @@ import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Data
-@TableName("sample_info")
-public class SampleInfo {
+@TableName("water_test_info")
+public class WaterTestInfo {
     @TableId
     private int id;
     private String caseNum;
-    @NotEmpty
-    private String sampleName;
-    @NotEmpty
     private String sampleType;
-    @NotNull
-    private double quantity;
     @NotEmpty
-    private String batchNumber;
+    private String waterNo;
+    private String wiNo;
     @NotEmpty
-    private String testPurpose;
+    private String waterSendDate;
     @NotEmpty
-    private String sampleSendDate;
-    @NotEmpty
-    private String sampleDisposal;
-    @NotEmpty
-    private String sampleStorageCondition;
+    private String testItem;
+    private boolean urgent;
     private String createTime;
+    private String code;
     private String sampleTaker;
     private String receiveDate;
+    private String rejectReason;
+    private String inspector;
+    private String status;
     @Version
     private int version;
-    private String rejectReason;
-    private String status;
     @TableField(exist = false)
-    private List<SampleTestInfo> sampleTestInfoList;
-
+    private ConsignorInfo consignorInfo;
 }

@@ -6,6 +6,15 @@ public class TaskCommon {
     private String type;
     private String inspector;
     private List<CheckedCommon> checkedList;
+    private String caseNum;
+
+    public String getCaseNum() {
+        return caseNum;
+    }
+
+    public void setCaseNum(String caseNum) {
+        this.caseNum = caseNum;
+    }
 
     public String getType() {
         return type;

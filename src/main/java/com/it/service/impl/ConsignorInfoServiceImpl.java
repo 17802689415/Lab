@@ -1,5 +1,7 @@
 package com.it.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.it.config.LdapConfiguration;
 import com.it.mapper.ConsignorInfoMapper;
@@ -18,16 +20,23 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.stereotype.Service;
 
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 @Service
 public class ConsignorInfoServiceImpl extends ServiceImpl<ConsignorInfoMapper, ConsignorInfo> implements ConsignorInfoService {
+    @Autowired
+    private ConsignorInfoMapper consignorInfoMapper;
 
 
+
+    @Override
+    public List<ConsignorInfo> getApplyDataBySampleStatus(ConsignorInfo consignorInfo) {
+//        Page page = new Page<>(consignorInfo.getCurrentPage(),consignorInfo.getPageSize());
+        int val = (consignorInfo.getCurrentPage()-1)*consignorInfo.getPageSize();
+        consignorInfo.setCurrentPage(val);
+        List<ConsignorInfo> data = consignorInfoMapper.getApplyDataBySampleStatus(consignorInfo);
+
+        return data;
+    }
 }

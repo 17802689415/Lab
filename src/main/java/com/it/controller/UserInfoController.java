@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -34,6 +35,13 @@ public class UserInfoController {
             Page userDataById = userInfoService.page(page, queryWrapper);
             return R.success(userDataById,200);
         }
+    }
+    @GetMapping("/getUser")
+    public R getUser(){
+        LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserInfo::getActive,true);
+        List<UserInfo> list = userInfoService.list(queryWrapper);
+        return R.success(list,200);
     }
     @PostMapping("/addUser")
     @PreAuthorize("hasAuthority('ROLE_admin')")
